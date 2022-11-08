@@ -1,0 +1,28 @@
+{
+  "name": "reanication",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ricccck/ReAnication.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ricccck/ReAnication/issues"
+  },
+  "homepage": "https://github.com/Ricccck/ReAnication#readme",
+  "dependencies": {
+    "concurrently": "^7.5.0",
+    "express": "^4.18.2",
+    "install": "^0.13.0",
+    "nodemon": "^2.0.20",
+    "npm": "^8.19.3"
+  }
+}
