@@ -1,29 +1,29 @@
-require('dotenv').config({path:'../.env.local'})
+require("dotenv").config({ path: "../.env.local", debug: true });
 
 module.exports = {
-  production: {
-    client: 'pg',
-    connection: process.env.DATABASE_URL,
-    migrations: {
-      directory: "./migrations"
-    },
-    seeds: {
-        directory: "./seed"
-      }
-  },
-
   development: {
-    client: 'pg',
+    client: "postgres",
     connection: {
       database: process.env.DB_NAME,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
     },
     migrations: {
-        directory: "./migrations"
+      directory: "./migrations",
     },
     seeds: {
-        directory: "./seeds"
-    }
-  }
+      directory: "./seeds",
+    },
+  },
+
+  production: {
+    client: "postgres",
+    connection: process.env.DATABASE_URL,
+    migrations: {
+      directory: "./migrations",
+    },
+    seeds: {
+      directory: "./seeds",
+    },
+  },
 };
