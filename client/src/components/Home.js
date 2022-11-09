@@ -17,7 +17,7 @@ const Home = (props) => {
 
   const joinThread = () => {
     if (thread !== "" && username !== "") {
-      socket.emit("join_thread", { username, thread });
+      socket.emit("join-thread", { username, thread });
     }
 
     navigate("/thread", { replace: true });

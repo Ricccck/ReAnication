@@ -9,9 +9,7 @@ const Thread = (props) => {
   const {socket} = props;
   return (
     <Container className="Thread">
-      <div>
       <Messages socket={socket} />
-      </div>
     </Container>
   );
 };

@@ -14,6 +14,7 @@ const Messages = (props) => {
   useEffect(() => {
     socket.on("receive_message", (data) => {
       console.log(data);
+
       setMessagesArr((state) => [
         ...state,
         {
