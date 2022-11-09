@@ -2,11 +2,12 @@ import * as React from "react";
 
 import Box from "@mui/material/Box";
 
-const Navbar = (props) => {
+const Home = (props) => {
+  const { user } = props;
   return (
-    <Box className="Navbar">
+    <Box className="Home">
     </Box>
   );
 };
 
-export default Navbar;
+export default Home;

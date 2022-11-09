@@ -12,8 +12,34 @@ const helloWorld = async () => {
     });
 };
 
+
+
+const getAllThread = async () => {
+  return await axios
+    .get(URL + "/thread/all")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const getThread = async (threadId) => {
+  return await axios
+    .get(URL + `/thread/${threadId}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 const apiService = {
   helloWorld,
+  getAllThread,
+  getThread,
 };
 
 export default apiService;
