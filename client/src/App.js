@@ -1,24 +1,31 @@
 import "./styles/App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import * as React from "react";
 import { useState, useEffect } from "react";
+import io from "socket.io-client";
 
+//import components
 import Header from "./components/Header";
 import Home from "./components/Home";
 import ThreadList from "./components/ThreadList";
+import Thread from "./components/chat/Thread";
 import User from "./components/User";
 import Footer from "./components/Footer";
 
+//import mui contents
 import Container from "@mui/material/Container";
 
+// import functions
 import apiService from "./services/api.service";
 import userService from "./services/user.services";
-const { helloWorld } = apiService;
+
+const socket = io.connect("http://localhost:8080");
 const { getUserData } = userService;
 
 const App = () => {
-  const [get, setGet] = useState("");
-  const [user, setUser] = useState("");
   const [headerView, setHeaderView] = useState(true);
+  const [username, setUsername] = useState("");
+  const [thread, setThread] = useState("");
   const [navState, setNavState] = useState("home");
   const [footerView, setFooterView] = useState(true);
 
@@ -39,9 +46,32 @@ const App = () => {
 
   return (
     <>
-      {headerView === true && <Header user={user} setUser={setUser} />}
-      <Container className="app">{navState}</Container>
-      {footerView === true && <Footer />}
+      <Router>
+        {/* {headerView === true && <Header user={user} setUser={setUser} />} */}
+        <Container className="app">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home
+                  username={username}
+                  setUsername={setUsername}
+                  thread={thread}
+                  setThread={setThread}
+                  socket={socket}
+                />
+              }
+            />
+            <Route
+              path="/thread"
+              element={
+                <Thread username={username} thread={thread} socket={socket} />
+              }
+            />
+          </Routes>
+        </Container>
+        {/* {footerView === true && <Footer />} */}
+      </Router>
     </>
   );
 };
