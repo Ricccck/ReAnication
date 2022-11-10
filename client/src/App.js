@@ -1,23 +1,19 @@
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import * as React from "react";
-import { useState, useEffect } from "react";
-import io from "socket.io-client";
+import { useState } from "react";
 
 //import components
-import Header from "./components/Header";
 import Home from "./components/Home";
-import ThreadList from "./components/ThreadList";
 import Thread from "./components/thread/Thread";
-import User from "./components/User";
-import Footer from "./components/Footer";
+// import Header from "./components/Header";
+// import ThreadList from "./components/ThreadList";
+// import Footer from "./components/Footer";
 
 //import mui contents
 import Container from "@mui/material/Container";
 
 // import functions
-import apiService from "./services/api.service";
-import userService from "./services/user.service";
 import socketIoService from "./services/socket.service";
 
 

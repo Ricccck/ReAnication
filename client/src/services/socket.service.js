@@ -1,7 +1,5 @@
 import io from "socket.io-client";
-const socket = io("http://localhost:8080", {
-  withCredentials: true,
-});
+const socket = io();
 
 const joinThread = (username, thread) => {
   if (thread !== "" && username !== "") {
@@ -9,8 +7,8 @@ const joinThread = (username, thread) => {
   }
 };
 
-const getMessages = async (func) => {
-  await socket.on("receive_message", (data) => {
+const getMessages = (func) => {
+  socket.on("receive_message", (data) => {
     func((state) => [
       ...state,
       {
