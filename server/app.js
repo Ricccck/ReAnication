@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
   socket.on("join-thread", (data) => {
     const { username, thread } = data;
 
-    let __createdtime__ = Date.now();
+    socket.join(thread);
 
     getAllMessage(thread)
       .then((res) => {
@@ -46,7 +46,10 @@ io.on("connection", (socket) => {
         console.error(err);
       });
 
+
     //apart someone arrive to thread
+    let __createdtime__ = Date.now();
+
     socket.to(thread).emit("receive_message", {
       message: `${username} has joined the thread`,
       username: CHAT_BOT,
