@@ -6,10 +6,11 @@
   "scripts": {
     "start": "nodemon server/app.js",
     "pro": "node server/app.js",
-    "build": "npm install && npm run migrate:latest && cd client && npm install && npm run build",
+    "build": "npm install && npm run migrate:down && npm run migrate:latest && cd client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate:latest": "npx knex migrate:latest --knexfile db/knexfile",
-    "migrate:down": "npx knex migrate:down --knexfile db/knexfile"
+    "migrate:down": "npx knex migrate:down --knexfile db/knexfile",
+    "seed:data": "npx knex seed:run --knexfile db/knexfile.js"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../.env.local", debug: true });
+require("dotenv").config({ path: __dirname + "/../.env.local"});
 
 module.exports = {
   development: {

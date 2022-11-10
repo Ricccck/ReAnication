@@ -8,7 +8,7 @@ import io from "socket.io-client";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import ThreadList from "./components/ThreadList";
-import Thread from "./components/chat/Thread";
+import Thread from "./components/thread/Thread";
 import User from "./components/User";
 import Footer from "./components/Footer";
 
@@ -18,31 +18,15 @@ import Container from "@mui/material/Container";
 // import functions
 import apiService from "./services/api.service";
 import userService from "./services/user.service";
+import socketIoService from "./services/socket.service";
 
-const socket = io.connect("http://localhost:8080");
-const { getUserData } = userService;
 
 const App = () => {
-  const [headerView, setHeaderView] = useState(true);
+  // const [headerView, setHeaderView] = useState(true);
   const [username, setUsername] = useState("");
   const [thread, setThread] = useState("");
-  const [navState, setNavState] = useState("home");
-  const [footerView, setFooterView] = useState(true);
-
-  useEffect(() => {
-    // helloWorld().then((res) => setGet(res));
-    // getUserData(1).then((res) => setUser(res));
-  });
-
-  useEffect(() => {
-    if (navState === "home") {
-      setNavState(<Home />);
-    } else if (navState === "thread_list") {
-      setNavState(<ThreadList />);
-    } else if (navState === "user") {
-      setNavState(<User />);
-    }
-  });
+  const { socket } = socketIoService;
+  // const [footerView, setFooterView] = useState(true);
 
   return (
     <>

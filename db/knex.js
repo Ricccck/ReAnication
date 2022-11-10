@@ -1,7 +1,7 @@
-require("dotenv").config({ path: "../.env.local", debug: true });
+require("dotenv").config({ path: __dirname + "/../.env.local"});
 
-const environment = process.env.NODE_ENV;
+const environment = process.env.NODE_ENV || "development";
 const config = require("./knexfile");
-const knex = require("knex")(config[environment]);
+const knex = require("knex")(config[environment])
 
 module.exports = knex;

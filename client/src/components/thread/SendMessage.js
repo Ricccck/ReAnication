@@ -8,13 +8,13 @@ import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 
 const SendMessage = (props) => {
-  const { socket, username, room } = props;
+  const { socket, username, thread } = props;
   const [message, setMessage] = useState("");
 
   const sendMessage = () => {
     if (message !== "") {
       const __createdtime__ = Date.now();
-      socket.emit("send_message", { username, room, message, __createdtime__ });
+      socket.emit("send_message", { username, thread, message, __createdtime__ });
       setMessage("");
     }
   };

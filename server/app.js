@@ -5,9 +5,16 @@ const app = express();
 const cors = require("cors");
 const { Server } = require("socket.io");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
 
 const server = require("http").createServer(app);
+const { saveMessage, getAllMessage } = require("./middleware/model");
+const { leaveThread } = require("./middleware/utils");
 
 const io = new Server(server, {
   cors: {
@@ -31,6 +38,14 @@ io.on("connection", (socket) => {
 
     let __createdtime__ = Date.now();
 
+    getAllMessage(thread)
+      .then((res) => {
+        socket.emit("get_all_message", res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
     //apart someone arrive to thread
     socket.to(thread).emit("receive_message", {
       message: `${username} has joined the thread`,
@@ -51,9 +66,30 @@ io.on("connection", (socket) => {
     socket.emit("thread_users", threadUsers);
   });
 
+  socket.on("send_message", async (data) => {
+    const { thread } = data;
+
+    io.in(thread).emit("receive_message", data);
+    await saveMessage(data);
+  });
+
   //notice when user leave
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
+  socket.on("leave_thread", (data) => {
+    const { username, thread } = data;
+
+    socket.leave(thread);
+    const __createdtime__ = Date.now();
+
+    allUsers = leaveThread(socket.id, allUsers);
+
+    socket.to(thread).emit("thread_users", allUsers);
+    socket.to(thread).emit("receive_message", {
+      username: CHAT_BOT,
+      message: `${username} has left the chat`,
+      __createdtime__,
+    });
+
+    console.log(`${username} has left the chat`);
   });
 });
 

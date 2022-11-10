@@ -25,6 +25,9 @@ Table users {
 ```
 Table messages {
   id serial [pk];
-  message varchar(1024);
+  username varchar(32) [nn];
+  thread varchar(64) [nn];
+  message varchar(1024) [nn];
+  timestamp time [nn];
 }
 ```

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const {getAllMessage} = require("../middleware/model");
 
 const threadArr = [
   {id: 1,
@@ -11,6 +12,10 @@ const threadArr = [
 
 router.get("/", (req, res) => {
   res.send("This is from api.js");
+});
+
+router.get("/message/all", (req, res) => {
+  getAllMessage().then(data => res.send(data))
 });
 
 router.get("/thread/all", (req, res) => {

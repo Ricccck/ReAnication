@@ -11,17 +11,12 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 
+import socketIoService from "../services/socket.service";
+const { joinThread } = socketIoService;
+
 const Home = (props) => {
   const { username, setUsername, thread, setThread, socket } = props;
   const navigate = useNavigate();
-
-  const joinThread = () => {
-    if (thread !== "" && username !== "") {
-      socket.emit("join-thread", { username, thread });
-    }
-
-    navigate("/thread", { replace: true });
-  };
 
   return (
     <Container className="Home">
@@ -40,17 +35,29 @@ const Home = (props) => {
             defaultValue={""}
             onChange={(e) => setThread(e.target.value)}
           >
-            <MenuItem value="">
-              None
-            </MenuItem>
+            <MenuItem value="">None</MenuItem>
             <MenuItem value={"A"}>A</MenuItem>
             <MenuItem value={"B"}>B</MenuItem>
             <MenuItem value={"C"}>C</MenuItem>
             <MenuItem value={"D"}>D</MenuItem>
           </Select>
-          <Button className="btn" onClick={joinThread}>
+          <Button className="btn" onClick={()=> {
+            joinThread(username, thread)
+
+            navigate("/thread", { replace: true });
+            }}>
             Join Room
           </Button>
+
+          {/* <Button
+            onClick={() => {
+              getAllMessage().then(res => {
+                console.log(res)
+              })
+            }}
+          >
+            test
+          </Button> */}
         </FormControl>
       </Card>
     </Container>

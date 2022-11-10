@@ -34,10 +34,22 @@ const getThread = async (threadId) => {
     });
 };
 
+const getAllMessage = async () => {
+  return await axios
+    .get("/api/message/all")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 const apiService = {
   helloWorld,
   getAllThread,
   getThread,
+  getAllMessage,
 };
 
 export default apiService;
