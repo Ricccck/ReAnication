@@ -1,5 +1,7 @@
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:8080");
+const socket = io("http://localhost:8080", {
+  withCredentials: true,
+});
 
 const joinThread = (username, thread) => {
   if (thread !== "" && username !== "") {

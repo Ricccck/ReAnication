@@ -3,29 +3,27 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { Server } = require("socket.io");
+app.use(cors());
 
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
-
+//create socke.io server
 const server = require("http").createServer(app);
-const { saveMessage, getAllMessage } = require("./middleware/model");
-const { leaveThread } = require("./middleware/utils");
-
-const io = new Server(server, {
+const io = require("socket.io")(server, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
   },
 });
 
+//value for socket.io
 const CHAT_BOT = "ChatBot";
 let chatRoom = "";
 let allUsers = [];
+
+//function use in socket.io connection
+const { saveMessage, getAllMessage } = require("./middleware/model");
+const { leaveThread } = require("./middleware/utils");
 
 //socket.io connection
 io.on("connection", (socket) => {
@@ -45,7 +43,6 @@ io.on("connection", (socket) => {
       .catch((err) => {
         console.error(err);
       });
-
 
     //apart someone arrive to thread
     let __createdtime__ = Date.now();
@@ -93,6 +90,22 @@ io.on("connection", (socket) => {
     });
 
     console.log(`${username} has left the chat`);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`${socket.id} disconnected from the chat`);
+    const user = allUsers.find((user) => user.id == socket.id);
+    const __createdtime__ = Date.now();
+
+    if (user?.username) {
+      allUsers = leaveThread(socket.id, allUsers);
+      socket.to(chatRoom).emit("thread_users", allUsers);
+      socket.to(chatRoom).emit("receive_message", {
+        username: CHAT_BOT,
+        message: `${user.username} has disconnected from the chat.`,
+        __createdtime__,
+      });
+    }
   });
 });
 
