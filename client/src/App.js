@@ -17,7 +17,7 @@ import Container from "@mui/material/Container";
 
 // import functions
 import apiService from "./services/api.service";
-import userService from "./services/user.services";
+import userService from "./services/user.service";
 
 const socket = io.connect("http://localhost:8080");
 const { getUserData } = userService;
@@ -65,7 +65,11 @@ const App = () => {
             <Route
               path="/thread"
               element={
-                <Thread username={username} thread={thread} socket={socket} />
+                <Thread
+                  username={username}
+                  thread={thread}
+                  socket={socket}
+                />
               }
             />
           </Routes>

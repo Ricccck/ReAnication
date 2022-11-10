@@ -12,8 +12,6 @@ const helloWorld = async () => {
     });
 };
 
-
-
 const getAllThread = async () => {
   return await axios
     .get(URL + "/thread/all")
