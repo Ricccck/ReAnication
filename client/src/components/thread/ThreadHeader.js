@@ -34,10 +34,11 @@ const ThreadHeader = (props) => {
   };
 
   return (
-    <Box className="ThreadHeader" sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar className="ThreadHeader" position="static" >
         <Toolbar>
-          <Button className="btn" onClick={leaveRoom}>
+          <Button className="btn" 
+          color={"inherit"}
+          onClick={leaveRoom}>
             Leave
           </Button>
           <Typography
@@ -95,7 +96,6 @@ const ThreadHeader = (props) => {
           </Box>
         </Toolbar>
       </AppBar>
-    </Box>
   );
 };
 
