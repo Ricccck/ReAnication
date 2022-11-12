@@ -36,10 +36,10 @@ const Home = (props) => {
             onChange={(e) => setThread(e.target.value)}
           >
             <MenuItem value="">None</MenuItem>
-            <MenuItem value={"A"}>A</MenuItem>
-            <MenuItem value={"B"}>B</MenuItem>
-            <MenuItem value={"C"}>C</MenuItem>
-            <MenuItem value={"D"}>D</MenuItem>
+            <MenuItem value={"Demo Thread1"}>Demo Thread1</MenuItem>
+            <MenuItem value={"Demo Thread2"}>Demo Thread2</MenuItem>
+            <MenuItem value={"Demo Thread3"}>Demo Thread3</MenuItem>
+            <MenuItem value={"Demo Thread4"}>Demo Thread4</MenuItem>
           </Select>
           <Button className="btn" onClick={()=> {
             joinThread(username, thread)
