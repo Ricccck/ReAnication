@@ -2,6 +2,8 @@ import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import * as React from "react";
 import { useState } from "react";
+import io from "socket.io-client";
+
 
 //import components
 import Home from "./components/Home";
@@ -14,14 +16,12 @@ import Thread from "./components/thread/Thread";
 import Container from "@mui/material/Container";
 
 // import functions
-import socketIoService from "./services/socket.service";
-
+const socket = io();
 
 const App = () => {
   // const [headerView, setHeaderView] = useState(true);
   const [username, setUsername] = useState("");
   const [thread, setThread] = useState("");
-  const { socket } = socketIoService;
   // const [footerView, setFooterView] = useState(true);
 
   return (

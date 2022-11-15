@@ -11,12 +11,17 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 
-import socketIoService from "../services/socket.service";
-const { joinThread } = socketIoService;
-
 const Home = (props) => {
   const { username, setUsername, thread, setThread, socket } = props;
   const navigate = useNavigate();
+
+  const joinThread = () => {
+    if (thread !== "" && username !== "") {
+      socket.emit("join-thread", { username, thread });
+    }
+
+    navigate("/thread", { replace: true });
+  };
 
   return (
     <Container className="Home">
@@ -41,11 +46,7 @@ const Home = (props) => {
             <MenuItem value={"Demo Thread3"}>Demo Thread3</MenuItem>
             <MenuItem value={"Demo Thread4"}>Demo Thread4</MenuItem>
           </Select>
-          <Button className="btn" onClick={()=> {
-            joinThread(username, thread)
-
-            navigate("/thread", { replace: true });
-            }}>
+          <Button className="btn" onClick={joinThread}>
             Join Room
           </Button>
 

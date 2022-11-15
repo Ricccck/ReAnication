@@ -6,6 +6,9 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 
+import utilService from "../../services/util.services";
+const { sortBytimestamp, formatTimestamp } = utilService;
+
 const Messages = (props) => {
   const { socket, username, thread } = props;
 
@@ -28,27 +31,12 @@ const Messages = (props) => {
 
   useEffect(() => {
     socket.on("get_all_message", (data) => {
-      console.log(data);
-
       data = sortBytimestamp(data);
       setMessagesArr((state) => [...data, ...state]);
     });
 
     return () => socket.off("get_all_message");
   }, [socket]);
-
-  const sortBytimestamp = (arr) => {
-    return arr.sort(
-      (prev, next) =>
-        parseInt(prev.__createdtime__) - parseInt(next.__createdtime__)
-    );
-  };
-
-  const formatTimestamp = (timestamp) => {
-    timestamp = JSON.parse(timestamp);
-    const date = new Date(timestamp);
-    return date.toLocaleString();
-  };
 
   return (
     <Container className="Thread">

@@ -34,7 +34,7 @@ const ThreadHeader = (props) => {
   };
 
   return (
-      <AppBar className="ThreadHeader" position="static" >
+      <AppBar className="ThreadHeader" position="fixed">
         <Toolbar>
           <Button className="btn" 
           color={"inherit"}
@@ -52,7 +52,7 @@ const ThreadHeader = (props) => {
           </Typography>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="All Users">
               <IconButton
                 onClick={(e) => setUserList(e.currentTarget)}
                 sx={{ p: 0 }}
