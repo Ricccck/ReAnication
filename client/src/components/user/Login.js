@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Container } from "@mui/material";
 import { FormControl } from "@mui/material";
@@ -11,19 +10,19 @@ import { Link } from "@mui/material";
 import authService from "../../services/auth.service";
 
 const Login = (props) => {
-  const { setLoginView } = props;
+  const { setLoginView, setNavState } = props;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     try {
       authService.login(email, password).then(
-        () => {
-          navigate("/home", { replace: true });
+        (res) => {
+          console.log("Loged in  successfully", res);
+
+          setNavState("home");
         },
         (err) => {
           console.log(err);

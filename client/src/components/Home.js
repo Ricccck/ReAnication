@@ -1,67 +1,64 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 
+import apiService from "../services/api.service";
+
 const Home = (props) => {
-  const { username, setUsername, thread, setThread, socket } = props;
-  const navigate = useNavigate();
+  const {
+    thread,
+    setThread,
+    setNavState,
+    setShowNavbar,
+    socket,
+  } = props;
+  const [username, setUsername] = useState("");
 
   const joinThread = () => {
     if (thread !== "" && username !== "") {
       socket.emit("join-thread", { username, thread });
     }
 
-    navigate("/thread", { replace: true });
+    setShowNavbar(false);
+    setNavState("thread");
   };
 
-  return (
-    <Container className="Home">
-      <Card className="home-card">
-        <h1>ReAnication</h1>
-        <TextField
-          className="username"
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <FormControl fullWidth>
-          <InputLabel>Choose a thread</InputLabel>
-          <Select
-            className="select"
-            label="thread"
-            defaultValue={""}
-            onChange={(e) => setThread(e.target.value)}
-          >
-            <MenuItem value="">None</MenuItem>
-            <MenuItem value={"Demo Thread1"}>Demo Thread1</MenuItem>
-            <MenuItem value={"Demo Thread2"}>Demo Thread2</MenuItem>
-            <MenuItem value={"Demo Thread3"}>Demo Thread3</MenuItem>
-            <MenuItem value={"Demo Thread4"}>Demo Thread4</MenuItem>
-          </Select>
-          <Button className="btn" onClick={joinThread}>
-            Join Room
-          </Button>
+  useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = user.accessToken;
+    apiService.getUserData(token).then(res => {
+      setUsername(res.username)
+    })
+  }, [])
 
-          {/* <Button
-            onClick={() => {
-              getAllMessage().then(res => {
-                console.log(res)
-              })
-            }}
-          >
-            test
-          </Button> */}
-        </FormControl>
-      </Card>
-    </Container>
+  return (
+    <Card className="Popup">
+      <h1>{username}</h1>
+      <FormControl fullWidth>
+        <InputLabel>Choose your topic</InputLabel>
+        <Select
+          className="select"
+          label="thread"
+          defaultValue={""}
+          onChange={(e) => setThread(e.target.value)}
+        >
+          <MenuItem value="">None</MenuItem>
+          <MenuItem value={"-story"}>Story</MenuItem>
+          <MenuItem value={"-movement"}>Movement</MenuItem>
+          <MenuItem value={"-drawing"}>Drawing</MenuItem>
+          <MenuItem value={"-music"}>Music</MenuItem>
+        </Select>
+        <Button className="btn" onClick={joinThread}>
+          Join Thread
+        </Button>
+      </FormControl>
+    </Card>
   );
 };
 

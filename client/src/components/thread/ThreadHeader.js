@@ -1,7 +1,5 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,8 +11,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 
 const ThreadHeader = (props) => {
-  const { socket, username, thread } = props;
-  const navigate = useNavigate();
+  const { username, thread, setNavState, setShowNavbar, socket } = props;
 
   const [userList, setUserList] = useState("");
   const [threadUsers, setThreadUsers] = useState([]);
@@ -30,72 +27,72 @@ const ThreadHeader = (props) => {
   const leaveRoom = () => {
     socket.emit("leave_thread", { username, thread });
 
-    navigate("/home", { replace: true });
+    setShowNavbar(true);
+    setNavState("home");
   };
 
   return (
-      <AppBar className="ThreadHeader" position="fixed">
-        <Toolbar>
-          <Button className="btn" 
-          color={"inherit"}
-          onClick={leaveRoom}>
-            Leave
-          </Button>
-          <Typography
-            className="thread-title"
-            textAlign="center"
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1 }}
-          >
-            {thread}
-          </Typography>
+    <AppBar
+      className="ThreadHeader"
+      position="sticky"
+    >
+      <Toolbar>
+        <Button className="btn" color={"inherit"} onClick={leaveRoom}>
+          Leave
+        </Button>
+        <Typography
+          className="thread-title"
+          textAlign="center"
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1 }}
+        >
+          {thread}
+        </Typography>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="All Users">
-              <IconButton
-                onClick={(e) => setUserList(e.currentTarget)}
-                sx={{ p: 0 }}
-              >
-                {threadUsers.length > 0 && (
-                  <h5 className="usersTitle">Users:</h5>
-                )}
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={userList}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(userList)}
-              onClose={() => {
-                setUserList("");
-              }}
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="All Users">
+            <IconButton
+              onClick={(e) => setUserList(e.currentTarget)}
+              sx={{ p: 0 }}
             >
-              {threadUsers.map((user) => (
-                <MenuItem
-                  style={{
-                    fontWeight: `${
-                      user.username === username ? "bold" : "normal"
-                    }`,
-                  }}
-                  key={user.id}
-                >
-                  <Typography textAlign="center">{user.username}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </AppBar>
+              {threadUsers.length > 0 && <h5 className="usersTitle">Users:</h5>}
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={userList}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(userList)}
+            onClose={() => {
+              setUserList("");
+            }}
+          >
+            {threadUsers.map((user) => (
+              <MenuItem
+                style={{
+                  fontWeight: `${
+                    user.username === username ? "bold" : "normal"
+                  }`,
+                }}
+                key={user.id}
+              >
+                <Typography textAlign="center">{user.username}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 

@@ -12,44 +12,20 @@ const helloWorld = async () => {
     });
 };
 
-const getAllThread = async () => {
+const getUserData = async (token) => {
   return await axios
-    .get(URL + "/thread/all")
+    .post(URL + "/user", {
+      accessToken: token,
+    })
     .then((res) => {
       return res.data;
-    })
-    .catch((err) => {
-      console.log(err);
     });
 };
 
-const getThread = async (threadId) => {
-  return await axios
-    .get(URL + `/thread/${threadId}`)
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
-const getAllMessage = async () => {
-  return await axios
-    .get("/api/message/all")
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 
 const apiService = {
   helloWorld,
-  getAllThread,
-  getThread,
-  getAllMessage,
+  getUserData
 };
 
 export default apiService;

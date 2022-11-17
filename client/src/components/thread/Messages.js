@@ -9,9 +9,14 @@ import CardContent from "@mui/material/CardContent";
 import utilService from "../../services/util.services";
 
 const Messages = (props) => {
-  const { socket, username, thread } = props;
+  const { socket } = props;
+  const ref = useRef(null);
 
   const [messagesArr, setMessagesArr] = useState([]);
+
+  useEffect(() => {
+    if (ref && ref.current) ref.current.scrollIntoView();
+  }, [messagesArr]);
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
@@ -48,6 +53,7 @@ const Messages = (props) => {
           <CardContent className="msgText">{msg.message}</CardContent>
         </Card>
       ))}
+      <div ref={ref} />
     </Container>
   );
 };

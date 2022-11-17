@@ -7,19 +7,21 @@ import Signup from "./user/Signup";
 import Container from "@mui/material/Container";
 
 const User = (props) => {
+  const { setNavState } = props;
+
   const [loginView, setLoginView] = useState("login");
 
   return (
     <Container className="User">
-        {loginView === "login" && (
-          <Login setLoginView={setLoginView} />
-        )}
+      {loginView === "login" && (
+        <Login setLoginView={setLoginView} setNavState={setNavState} />
+      )}
 
-        {loginView === "signup" && (
-          <Signup setLoginView={setLoginView} />
-        )}
+      {loginView === "signup" && (
+        <Signup setLoginView={setLoginView} setNavState={setNavState} />
+      )}
 
-        {/* {loginView === "profile" && (
+      {/* {loginView === "profile" && (
           <Profile setLoginView={setLoginView} />
         )} */}
     </Container>

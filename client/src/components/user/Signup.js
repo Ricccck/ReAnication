@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Container } from "@mui/material";
 import { FormControl } from "@mui/material";
@@ -15,7 +14,7 @@ import { Link } from "@mui/material";
 import authService from "../../services/auth.service";
 
 const Signup = (props) => {
-  const { setLoginView } = props;
+  const { setLoginView, setNavState } = props;
 
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -23,8 +22,6 @@ const Signup = (props) => {
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const navigate = useNavigate();
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -34,7 +31,7 @@ const Signup = (props) => {
         .then(
           (res) => {
             console.log("Sign up successfully", res);
-            navigate("/home", { replace: true });
+            setNavState("home");
           },
           (err) => {
             console.log(err);
@@ -46,7 +43,7 @@ const Signup = (props) => {
   };
 
   return (
-    <Container className="Signup" noValidate >
+    <Container className="Signup" noValidate>
       <FormControl>
         <Typography component="h1" variant="h5">
           Sign up

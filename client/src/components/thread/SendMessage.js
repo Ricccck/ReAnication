@@ -14,13 +14,22 @@ const SendMessage = (props) => {
   const sendMessage = () => {
     if (message !== "") {
       const __createdtime__ = Date.now();
-      socket.emit("send_message", { username, thread, message, __createdtime__ });
+      socket.emit("send_message", {
+        username,
+        thread,
+        message,
+        __createdtime__,
+      });
       setMessage("");
     }
   };
 
   return (
-    <Container className="SendMessage">
+    <Container
+      className="SendMessage"
+      sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+      elevation={3}
+    >
       <Stack direction="row" spacing={2}>
         <TextField
           variant="outlined"

@@ -1,7 +1,7 @@
 import axios from "axios";
-import crypto from "crypto-js";
 
 const URL = "/auth";
+
 const signup = async (
   username,
   firstname,

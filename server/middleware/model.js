@@ -44,7 +44,7 @@ module.exports = {
     return knex
       .select({
         userId: "id",
-        userName: "username",
+        username: "username",
         firstName: "first_name",
         lastName: "last_name",
         gender: "gender",
