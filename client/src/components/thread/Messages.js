@@ -7,7 +7,6 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 
 import utilService from "../../services/util.services";
-const { sortBytimestamp, formatTimestamp } = utilService;
 
 const Messages = (props) => {
   const { socket, username, thread } = props;
@@ -31,7 +30,7 @@ const Messages = (props) => {
 
   useEffect(() => {
     socket.on("get_all_message", (data) => {
-      data = sortBytimestamp(data);
+      data = utilService.sortBytimestamp(data);
       setMessagesArr((state) => [...data, ...state]);
     });
 
@@ -44,7 +43,7 @@ const Messages = (props) => {
         <Card className="message" key={i}>
           <CardHeader
             title={msg.username}
-            subheader={formatTimestamp(msg.__createdtime__)}
+            subheader={utilService.formatTimestamp(msg.__createdtime__)}
           />
           <CardContent className="msgText">{msg.message}</CardContent>
         </Card>

@@ -5,12 +5,12 @@
 exports.up = function(knex) {
   return knex.schema.createTable("users", function (table) {
     table.increments("id").primary();
-    table.string("username", 32).unique().notNullable()
+    table.string("username", 32).notNullable()
     table.string("first_name", 32).notNullable()
     table.string("last_name", 32).notNullable()
-    table.string("gender", 32).notNullable()
+    table.integer("gender", 1)
     table.string("email", 32).unique().notNullable().index();
-    table.string("password", 255);
+    table.string("password", 255).notNullable();
   });
 };
 

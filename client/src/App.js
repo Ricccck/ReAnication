@@ -4,13 +4,11 @@ import * as React from "react";
 import { useState } from "react";
 import io from "socket.io-client";
 
-
 //import components
+import User from "./components/User";
 import Home from "./components/Home";
 import Thread from "./components/thread/Thread";
-// import Header from "./components/Header";
 // import ThreadList from "./components/ThreadList";
-// import Footer from "./components/Footer";
 
 //import mui contents
 import Container from "@mui/material/Container";
@@ -19,19 +17,17 @@ import Container from "@mui/material/Container";
 const socket = io();
 
 const App = () => {
-  // const [headerView, setHeaderView] = useState(true);
   const [username, setUsername] = useState("");
   const [thread, setThread] = useState("");
-  // const [footerView, setFooterView] = useState(true);
 
   return (
     <>
       <Router>
-        {/* {headerView === true && <Header user={user} setUser={setUser} />} */}
         <Container className="app">
           <Routes>
+            <Route path="/" element={<User/>} />
             <Route
-              path="/"
+              path="/home"
               element={
                 <Home
                   username={username}
@@ -45,16 +41,11 @@ const App = () => {
             <Route
               path="/thread"
               element={
-                <Thread
-                  username={username}
-                  thread={thread}
-                  socket={socket}
-                />
+                <Thread username={username} thread={thread} socket={socket} />
               }
             />
           </Routes>
         </Container>
-        {/* {footerView === true && <Footer />} */}
       </Router>
     </>
   );

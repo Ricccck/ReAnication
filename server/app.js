@@ -17,7 +17,7 @@ app.use(express.json());
 //express server connections
 app.use("/api", require("./routes/api"));
 app.use("/user", require("./routes/user"));
-// app.use("/auth", require("./routes/auth"))
+app.use("/auth", require("./routes/auth"))
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 

@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 let refreshTokens = [];
 let allUsers = [];
 
-const { getAllUsers } = require("../middleware/model");
+const { getAllUsers, sendUserData } = require("../middleware/model");
 
 router.get("/", function (req, res) {
   res.send("This is from auth.js");
@@ -41,8 +41,9 @@ router.post("/signup", async (req, res) => {
     });
   }
 
-  bcryptPassword = bcrypt.hashSync(userPassword, 10);
-  userPassword = bcryptPassword;
+  bcryptPassword = await bcrypt.hash(userPassword, 10);
+  console.log(bcryptPassword)
+  req.body.userPassword = bcryptPassword;
 
   await sendUserData(req.body);
 
@@ -71,7 +72,7 @@ router.post("/login", async (req, res) => {
     });
   }
 
-  let isMatch = await bcrypt.compare(userPassword, user.userPassword);
+  const isMatch = await bcrypt.compare(userPassword, user.userPassword);
 
   if (!isMatch) {
     res.status(401).send({

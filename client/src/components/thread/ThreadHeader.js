@@ -30,7 +30,7 @@ const ThreadHeader = (props) => {
   const leaveRoom = () => {
     socket.emit("leave_thread", { username, thread });
 
-    navigate("/", { replace: true });
+    navigate("/home", { replace: true });
   };
 
   return (
