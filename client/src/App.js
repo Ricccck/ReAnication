@@ -19,17 +19,11 @@ const socket = io();
 const App = () => {
   const [navState, setNavState] = useState("home");
   const [showNavbar, setShowNavbar] = useState(true);
-  const [username, setUsername] = useState("");
-  const [thread, setThread] = useState("");
 
   useEffect(() => {
     if (navState === "home") {
       setNavState(
         <Home
-          username={username}
-          setUsername={setUsername}
-          thread={thread}
-          setThread={setThread}
           socket={socket}
           setNavState={setNavState}
           setShowNavbar={setShowNavbar}
@@ -38,17 +32,17 @@ const App = () => {
     } else if (navState === "thread") {
       setNavState(
         <Thread
-          username={username}
-          thread={thread}
           socket={socket}
           setNavState={setNavState}
           setShowNavbar={setShowNavbar}
         />
       );
     } else if (navState === "news") {
-      setNavState(<User setNavState={setNavState} />);
+      setNavState();
     } else if (navState === "announcement") {
       setNavState();
+    } else if (navState === "user") {
+      setNavState(<User setNavState={setNavState} />);
     }
   }, [navState]);
 

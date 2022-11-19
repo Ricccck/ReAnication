@@ -1,64 +1,151 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, userEffect, useEffect } from "react";
 
-import Card from "@mui/material/Card";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Button from "@mui/material/Button";
+import Popup from "./Popup";
+
+import { useTheme } from "@mui/material/styles";
+import { Container } from "@mui/material";
+import { Paper } from "@mui/material";
+import { Box } from "@mui/material";
+import { MobileStepper } from "@mui/material";
+import { Grid } from "@mui/material";
+import { Button } from "@mui/material";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import SwipeableViews from "react-swipeable-views";
+import { autoPlay } from "react-swipeable-views-utils";
 
 import apiService from "../services/api.service";
+import infoService from "../services/info.service";
+
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const Home = (props) => {
-  const {
-    thread,
-    setThread,
-    setNavState,
-    setShowNavbar,
-    socket,
-  } = props;
+  const { socket, setNavState, setShowNavbar } = props;
+  const theme = useTheme();
+
+  const [popupView, setPopupView] = useState(false);
   const [username, setUsername] = useState("");
+  const [activeStep, setActiveStep] = useState(0);
+  const [currentAnimeArr, setCurrentAnimeArr] = useState([]);
+  const [selectedAnime, setSelectedAnime] = useState("");
+  const [favoriteAnimeArr, setFavoriteAnimeArr] = useState([]);
+  const maxSteps = currentAnimeArr.length;
 
-  const joinThread = () => {
-    if (thread !== "" && username !== "") {
-      socket.emit("join-thread", { username, thread });
-    }
+  useEffect(() => {
+    infoService.currentAnimeInfo().then((res) => {
+      setCurrentAnimeArr(res.works);
+    });
+  }, []);
 
-    setShowNavbar(false);
-    setNavState("thread");
+  useEffect(() => {
+    apiService
+      .getUserData()
+      .then((res) => {
+        setUsername(res.username);
+      })
+      .catch(() => {
+        setUsername("Guest");
+        setNavState("user")
+      });
+  }, []);
+
+  const openPopup = () => {
+    setPopupView(true);
   };
 
-  useEffect(()=>{
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user.accessToken;
-    apiService.getUserData(token).then(res => {
-      setUsername(res.username)
-    })
-  }, [])
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
 
   return (
-    <Card className="Popup">
-      <h1>{username}</h1>
-      <FormControl fullWidth>
-        <InputLabel>Choose your topic</InputLabel>
-        <Select
-          className="select"
-          label="thread"
-          defaultValue={""}
-          onChange={(e) => setThread(e.target.value)}
+    <Container sx={{ width: 1 }}>
+      {popupView === true && (
+        <Popup
+          socket={socket}
+          username={username}
+          selectedAnime={selectedAnime}
+          setNavState={setNavState}
+          setShowNavbar={setShowNavbar}
+          setPopupView={setPopupView}
+        />
+      )}
+
+      <Paper>
+        <AutoPlaySwipeableViews
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          index={activeStep}
+          onChangeIndex={handleStepChange}
+          enableMouseEvents
         >
-          <MenuItem value="">None</MenuItem>
-          <MenuItem value={"-story"}>Story</MenuItem>
-          <MenuItem value={"-movement"}>Movement</MenuItem>
-          <MenuItem value={"-drawing"}>Drawing</MenuItem>
-          <MenuItem value={"-music"}>Music</MenuItem>
-        </Select>
-        <Button className="btn" onClick={joinThread}>
-          Join Thread
-        </Button>
-      </FormControl>
-    </Card>
+          {currentAnimeArr.map((data, i) => (
+            <div key={data.id}>
+              <Box
+                component={"img"}
+                sx={{
+                  width: "100%",
+                }}
+                src={data.images.facebook.og_image_url}
+                alt={data.title}
+                onClick={(e) => {
+                  openPopup();
+                  console.log(data);
+                  setSelectedAnime(data);
+                }}
+              />
+            </div>
+          ))}
+        </AutoPlaySwipeableViews>
+        <MobileStepper
+          variant="progress"
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+            </Button>
+          }
+        />
+      </Paper>
+      <Paper>
+        {favoriteAnimeArr.map((data, i) => (
+          <Grid
+            component={"img"}
+            // src={data.images.facebook.og_image_url}
+            // alt={data.title}
+          />
+        ))}
+      </Paper>
+    </Container>
   );
 };
 

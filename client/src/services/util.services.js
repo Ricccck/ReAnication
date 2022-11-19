@@ -20,10 +20,28 @@ const gender = (value) => {
   }
 };
 
+const getCurrentSeason = () => {
+  const date = new Date();
+
+  const year = date.getFullYear()
+  const month = date.getMonth()
+
+  if(month < 4) {
+    return `${year}-winter`
+  } else if(month < 7) {
+    return `${year}-spring`
+  } else if(month < 10) {
+    return `${year}-summer`
+  } else {
+    return `${year}-autumn`
+  }
+}
+
 const utilService = {
   sortBytimestamp,
   formatTimestamp,
   gender,
+  getCurrentSeason
 };
 
 export default utilService;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import api from "./api.axios"
 const URL = "/api";
 
 const helloWorld = async () => {
@@ -12,20 +13,17 @@ const helloWorld = async () => {
     });
 };
 
-const getUserData = async (token) => {
-  return await axios
-    .post(URL + "/user", {
-      accessToken: token,
-    })
+const getUserData = async () => {
+  return await api
+    .get(URL + "/user")
     .then((res) => {
       return res.data;
     });
 };
 
-
 const apiService = {
   helloWorld,
-  getUserData
+  getUserData,
 };
 
 export default apiService;

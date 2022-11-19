@@ -4,7 +4,7 @@ const router = express.Router();
 const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-let refreshTokens = [];
+let refreshTokenArr = [];
 let allUsers = [];
 
 const { getAllUsers, sendUserData } = require("../middleware/model");
@@ -14,7 +14,7 @@ router.get("/", function (req, res) {
 });
 
 router.post("/signup", async (req, res) => {
-  const { userName, userEmail, userPassword} = req.body;
+  const { userName, userEmail, userPassword } = req.body;
   await getAllUsers().then((data) => {
     return (allUsers = data);
   });
@@ -42,15 +42,19 @@ router.post("/signup", async (req, res) => {
   }
 
   bcryptPassword = await bcrypt.hash(userPassword, 10);
-  console.log(bcryptPassword)
+  console.log(bcryptPassword);
   req.body.userPassword = bcryptPassword;
 
   await sendUserData(req.body);
 
-  const accessToken = await JWT.sign({ userEmail }, process.env.SECRET_KEY, {
-    algorithm: "HS256",
-    expiresIn: "1h",
-  });
+  const accessToken = await JWT.sign(
+    { userEmail },
+    process.env.ACCESS_TOKEN_SECRET_KEY,
+    {
+      algorithm: "HS256",
+      expiresIn: "15m",
+    }
+  );
 
   res.status(201).send(accessToken);
 });
@@ -80,22 +84,72 @@ router.post("/login", async (req, res) => {
     });
   }
 
-  const accessToken = await JWT.sign({ userEmail }, process.env.SECRET_KEY, {
-    algorithm: "HS256",
-    expiresIn: "1h",
-  });
+  const accessToken = await JWT.sign(
+    { userEmail },
+    process.env.ACCESS_TOKEN_SECRET_KEY,
+    {
+      algorithm: "HS256",
+      expiresIn: "15m",
+    }
+  );
 
-  const refreshToken = await JWT.sign({ userEmail }, process.env.SECRET_KEY, {
-    algorithm: "HS256",
-    expiresIn: "5m",
-  });
+  const refreshToken = await JWT.sign(
+    { userEmail },
+    process.env.REFRESH_TOKEN_SECRET_KEY,
+    {
+      algorithm: "HS256",
+      expiresIn: "7 days",
+    }
+  );
 
-  refreshTokens.push(refreshToken);
+  refreshTokenArr.push(refreshToken);
 
-  res.send({
+  res.status(202).send({
     accessToken,
     refreshToken,
   });
+});
+
+router.post("/token", async (req, res) => {
+  const refreshToken = req.body.refreshToken;
+
+  if (!refreshToken) {
+    res.status(401).json({
+      errors: "Token not found",
+    });
+  }
+
+  if (!refreshTokenArr.includes(refreshToken)) {
+    res.status(403).json({
+      errors: "Invalid refresh token",
+    });
+  }
+
+  try {
+    const user = await JWT.verify(
+      refreshToken,
+      process.env.RREFRESH_TOKEN_SECRET_KEY
+    );
+
+    const { email } = user;
+    const accessToken = await JWT.sign(
+      { email },
+      process.env.REFRESH_TOKEN_SECRET_KEY,
+      { expiresIn: "15m" }
+    );
+    res.send({ accessToken });
+  } catch (error) {
+    res.status(403).json({
+      errors: "Invalid token",
+    });
+  }
+});
+
+router.delete("/logout", (req, res) => {
+  const refreshToken = req.header("auth-token");
+
+  refreshTokenArr = refreshTokenArr.filter((token) => token !== refreshToken);
+  res.sendStatus(204);
 });
 
 module.exports = router;

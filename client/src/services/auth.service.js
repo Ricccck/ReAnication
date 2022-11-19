@@ -1,4 +1,5 @@
 import axios from "axios";
+import tokenService from "./token.service";
 
 const URL = "/auth";
 
@@ -23,7 +24,7 @@ const signup = async (
     })
     .then((res) => {
       if (res.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(res.data));
+        tokenService.setUser(res.data)
       }
 
       return res.data;
@@ -38,27 +39,23 @@ const login = async (email, password) => {
     })
     .then((res) => {
       if (res.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(res.data));
+        tokenService.setUser(res.data)
       }
 
       return res.data;
     });
 };
 
-const logout = () => {
-  localStorage.removeItem("user");
-  localStorage.removeItem("userData");
-};
+const logout = async () => {
+  tokenService.removeUser();
 
-const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+  
 };
 
 const authService = {
   signup,
   login,
   logout,
-  getCurrentUser,
 };
 
 export default authService;

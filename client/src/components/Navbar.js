@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import { BottomNavigation } from "@mui/material";
+import { BottomNavigationAction } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ForumIcon from "@mui/icons-material/Forum";
 import ArticleIcon from "@mui/icons-material/Article";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
-import Paper from "@mui/material/Paper";
+import { Paper } from "@mui/material";
 
 const Navbar = (props) => {
   const { navState, setNavState } = props;
