@@ -14,17 +14,15 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 
-import apiService from "../services/api.service";
 import infoService from "../services/info.service";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const Home = (props) => {
-  const { socket, setNavState, setShowNavbar } = props;
+  const { socket, username, setNavState, setShowNavbar } = props;
   const theme = useTheme();
 
   const [popupView, setPopupView] = useState(false);
-  const [username, setUsername] = useState("");
   const [activeStep, setActiveStep] = useState(0);
   const [currentAnimeArr, setCurrentAnimeArr] = useState([]);
   const [selectedAnime, setSelectedAnime] = useState("");
@@ -35,18 +33,6 @@ const Home = (props) => {
     infoService.currentAnimeInfo().then((res) => {
       setCurrentAnimeArr(res.works);
     });
-  }, []);
-
-  useEffect(() => {
-    apiService
-      .getUserData()
-      .then((res) => {
-        setUsername(res.username);
-      })
-      .catch(() => {
-        setUsername("Guest");
-        setNavState("user")
-      });
   }, []);
 
   const openPopup = () => {

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import io from "socket.io-client";
 
 //import components
+import Header from "./components/Header";
 import User from "./components/User";
 import Home from "./components/Home";
 import Thread from "./components/thread/Thread";
@@ -13,18 +14,33 @@ import Navbar from "./components/Navbar";
 //import mui contents
 import Container from "@mui/material/Container";
 
+import apiService from "./services/api.service";
+
 // import functions
 const socket = io();
 
 const App = () => {
+  const [username, setUsername] = useState("");
   const [navState, setNavState] = useState("home");
   const [showNavbar, setShowNavbar] = useState(true);
+
+  useEffect(() => {
+    apiService
+      .getUserData()
+      .then((res) => {
+        setUsername(res.username);
+      })
+      .catch(() => {
+        setUsername("Guest");
+      });
+  }, []);
 
   useEffect(() => {
     if (navState === "home") {
       setNavState(
         <Home
           socket={socket}
+          username={username}
           setNavState={setNavState}
           setShowNavbar={setShowNavbar}
         />
@@ -49,8 +65,14 @@ const App = () => {
   return (
     <>
       <Container className="app">
+        {showNavbar === true && (
+          <Header
+            username={username}
+            navState={navState}
+            setNavState={setNavState}
+          />
+        )}
         {navState}
-
         {showNavbar === true && (
           <Navbar navState={navState} setNavState={setNavState} />
         )}
