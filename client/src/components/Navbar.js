@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 import { BottomNavigation } from "@mui/material";
 import { BottomNavigationAction } from "@mui/material";
@@ -8,35 +9,35 @@ import ArticleIcon from "@mui/icons-material/Article";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import { Paper } from "@mui/material";
 
-const Navbar = (props) => {
-  const { navState, setNavState } = props;
-
+const Navbar = () => {
   return (
     <Paper
       sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
       elevation={3}
     >
-      <BottomNavigation
-        showLabels
-        value={navState}
-        onChange={(e, value) => {
-          setNavState(value);
-        }}
-      >
-        <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
+      <BottomNavigation showLabels>
         <BottomNavigationAction
+          component={Link}
+          to="/"
+          label="Home"
+          icon={<HomeIcon />}
+        />
+        <BottomNavigationAction
+          component={Link}
+          to="/threads"
           label="Threads"
-          value="thread"
           icon={<ForumIcon />}
         />
         <BottomNavigationAction
+          component={Link}
+          to="/news"
           label="News"
-          value="news"
           icon={<ArticleIcon />}
         />
         <BottomNavigationAction
+          component={Link}
+          to="/annoucement"
           label="Announcment"
-          value="annoucement"
           icon={<AnnouncementIcon />}
         />
       </BottomNavigation>

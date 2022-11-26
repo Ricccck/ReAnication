@@ -8,7 +8,11 @@ const cors = require("cors");
 //create socke.io server
 const server = require("http").createServer(app);
 const socketio = require("./routes/socketio")
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3000"
+  }
+});
 
 app.use(cors());
 app.use(express.json());

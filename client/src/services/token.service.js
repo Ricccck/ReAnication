@@ -23,12 +23,24 @@ const getUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
+const getUserData = () => {
+  return JSON.parse(localStorage.getItem("userData"));
+};
+
 const setUser = (user) => {
   localStorage.setItem("user", JSON.stringify(user));
 };
 
+const setUserData = (userData) => {
+  localStorage.setItem("userData", JSON.stringify(userData));
+};
+
 const removeUser = () => {
   localStorage.removeItem("user");
+};
+
+const removeUserData = () => {
+  localStorage.removeItem("userData");
 };
 
 const tokenService = {
@@ -37,7 +49,10 @@ const tokenService = {
   updateAccessToken,
   getUser,
   setUser,
-  removeUser
+  removeUser,
+  getUserData,
+  setUserData,
+  removeUserData
 };
 
 export default tokenService;

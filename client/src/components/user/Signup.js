@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Container } from "@mui/material";
 import { FormControl } from "@mui/material";
@@ -14,7 +15,8 @@ import { Link } from "@mui/material";
 import authService from "../../services/auth.service";
 
 const Signup = (props) => {
-  const { setLoginView, setNavState } = props;
+  const { setLoggedIn, setLoginView } = props;
+  const navigate = useNavigate()
 
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -31,7 +33,10 @@ const Signup = (props) => {
         .then(
           (res) => {
             console.log("Sign up successfully", res);
-            setNavState("home");
+
+            setLoggedIn(true);
+            navigate("/")
+            window.location.reload()
           },
           (err) => {
             console.log(err);
@@ -106,7 +111,7 @@ const Signup = (props) => {
           Sign up
         </Button>
         <Link underline="hover" onClick={() => setLoginView("login")}>
-          Already have an account? Sign in
+          Already have an account? Log in
         </Link>
       </FormControl>
     </Container>

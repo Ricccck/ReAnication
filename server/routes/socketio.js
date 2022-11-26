@@ -12,11 +12,11 @@ const socketio = (io) => {
   
     //add user to a thread
     socket.on("join-thread", (data) => {
-      const { username, thread } = data;
+      const { username, threadName } = data;
   
-      socket.join(thread);
+      socket.join(threadName);
   
-      getAllMessage(thread)
+      getAllMessage(threadName)
         .then((res) => {
           socket.emit("get_all_message", res);
         })
@@ -24,10 +24,9 @@ const socketio = (io) => {
           console.error(err);
         });
   
-      //apart someone arrive to thread
       let __createdtime__ = Date.now();
   
-      socket.to(thread).emit("receive_message", {
+      socket.to(threadName).emit("receive_message", {
         message: `${username} has joined the thread`,
         username: CHAT_BOT,
         __createdtime__,
@@ -38,11 +37,11 @@ const socketio = (io) => {
         __createdtime__,
       });
   
-      chatRoom = thread;
-      allUsers.push({ id: socket.id, username, thread });
-      threadUsers = allUsers.filter((user) => user.thread === thread);
+      chatRoom = threadName;
+      allUsers.push({ id: socket.id, username, threadName });
+      threadUsers = allUsers.filter((user) => user.threadName === threadName);
   
-      socket.to(thread).emit("thread_users", threadUsers);
+      socket.to(threadName).emit("thread_users", threadUsers);
       socket.emit("thread_users", threadUsers);
     });
   

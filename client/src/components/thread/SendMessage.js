@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -7,8 +7,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 
+import socket from "../../services/socket";
+
 const SendMessage = (props) => {
-  const { socket, username, thread } = props;
+  const { username, thread } = props;
   const [message, setMessage] = useState("");
 
   const sendMessage = () => {

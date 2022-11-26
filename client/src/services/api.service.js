@@ -1,6 +1,6 @@
 import axios from "axios";
 import api from "./api.axios"
-const URL = "/api";
+const URL = "http://127.0.0.1:8080/api";
 
 const helloWorld = async () => {
   return await axios
@@ -17,7 +17,7 @@ const getUserData = async () => {
   return await api
     .get(URL + "/user")
     .then((res) => {
-      return res.data;
+      return res.data
     });
 };
 

@@ -1,13 +1,12 @@
 import "./styles/App.css";
 import * as React from "react";
 import { useState, useEffect } from "react";
-import io from "socket.io-client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 //import components
 import Header from "./components/Header";
 import User from "./components/User";
 import Home from "./components/Home";
-import Thread from "./components/thread/Thread";
 // import ThreadList from "./components/ThreadList";
 import Navbar from "./components/Navbar";
 
@@ -15,68 +14,57 @@ import Navbar from "./components/Navbar";
 import Container from "@mui/material/Container";
 
 import apiService from "./services/api.service";
-
-// import functions
-const socket = io();
+import Thread from "./components/Thread";
 
 const App = () => {
-  const [username, setUsername] = useState("");
-  const [navState, setNavState] = useState("home");
+  const [username, setUsername] = useState("Guest");
+  const [isLoggedin, setIsLoggedIn] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
 
   useEffect(() => {
-    apiService
-      .getUserData()
-      .then((res) => {
-        setUsername(res.username);
-      })
-      .catch(() => {
-        setUsername("Guest");
-      });
-  }, []);
-
-  useEffect(() => {
-    if (navState === "home") {
-      setNavState(
-        <Home
-          socket={socket}
-          username={username}
-          setNavState={setNavState}
-          setShowNavbar={setShowNavbar}
-        />
-      );
-    } else if (navState === "thread") {
-      setNavState(
-        <Thread
-          socket={socket}
-          setNavState={setNavState}
-          setShowNavbar={setShowNavbar}
-        />
-      );
-    } else if (navState === "news") {
-      setNavState();
-    } else if (navState === "announcement") {
-      setNavState();
-    } else if (navState === "user") {
-      setNavState(<User setNavState={setNavState} />);
+    if (isLoggedin) {
+      apiService
+        .getUserData()
+        .then((res) => {
+          console.log(res)
+          setUsername(res.username);
+        })
+        .catch(() => {
+          setUsername("Guest");
+        });
     }
-  }, [navState]);
+  }, [isLoggedin]);
 
   return (
     <>
-      <Container className="app">
-        {showNavbar === true && (
-          <Header
-            username={username}
-            navState={navState}
-            setNavState={setNavState}
-          />
-        )}
-        {navState}
-        {showNavbar === true && (
-          <Navbar navState={navState} setNavState={setNavState} />
-        )}
-      </Container>
+      <BrowserRouter>
+        <Container className="app">
+          {showNavbar === true && <Header username={username} />}
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <Home username={username} setShowNavbar={setShowNavbar} />
+              }
+            />
+            <Route path="/threads" element={<p>threads</p>} />
+            <Route path="/news" element={<p>news</p>} />
+            <Route path="/annoucement" element={<p>threads</p>} />
+            <Route
+              path="/user"
+              element={<User setIsLoggedIn={setIsLoggedIn} />}
+            />
+            <Route
+              path="/thread"
+              element={
+                <Thread username={username} setShowNavbar={setShowNavbar} />
+              }
+            />
+          </Routes>
+          {showNavbar === true && <Navbar />}
+        </Container>{" "}
+      </BrowserRouter>
     </>
   );
 };

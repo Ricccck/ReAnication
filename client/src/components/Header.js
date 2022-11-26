@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,38 +9,32 @@ import Button from "@mui/material/Button";
 import authService from "../services/auth.service";
 
 const Header = (props) => {
-  const { username, setNavState } = props;
-
-  const returnUsername = () => {
-    if (username) {
-      return username;
-    }
-    return "Guest";
-  };
+  const { username } = props;
+  const navigate = useNavigate();
 
   return (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          welcome {returnUsername()}
+          welcome {username}
         </Typography>
 
-        {username === undefined || username === "Guest" && (
+        {username === "Guest" && (
           <Button
             color="inherit"
             onClick={() => {
-              setNavState("user");
+              navigate("/user")
             }}
           >
             Log in
           </Button>
         )}
-        {username === true || username !== "Guest"&& (
+        {username !== "Guest" && (
           <Button
             color="inherit"
             onClick={() => {
-              authService.logout()
-              setNavState("home");
+              authService.logout();
+              window.location.reload();
             }}
           >
             Log out

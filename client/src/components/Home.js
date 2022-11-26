@@ -1,78 +1,54 @@
-import React, { useState, userEffect, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import Popup from "./Popup";
 
-import { useTheme } from "@mui/material/styles";
 import { Container } from "@mui/material";
 import { Paper } from "@mui/material";
 import { Box } from "@mui/material";
-import { MobileStepper } from "@mui/material";
 import { Grid } from "@mui/material";
-import { Button } from "@mui/material";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper";
+import "swiper/swiper-bundle.min.css";
 
-import infoService from "../services/info.service";
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+import infoService from "../services/anime.service";
 
 const Home = (props) => {
-  const { socket, username, setNavState, setShowNavbar } = props;
-  const theme = useTheme();
+  const { username, setShowNavbar } = props;
 
   const [popupView, setPopupView] = useState(false);
-  const [activeStep, setActiveStep] = useState(0);
   const [currentAnimeArr, setCurrentAnimeArr] = useState([]);
   const [selectedAnime, setSelectedAnime] = useState("");
   const [favoriteAnimeArr, setFavoriteAnimeArr] = useState([]);
-  const maxSteps = currentAnimeArr.length;
 
   useEffect(() => {
     infoService.currentAnimeInfo().then((res) => {
       setCurrentAnimeArr(res.works);
     });
-  }, []);
+  }, [setShowNavbar]);
 
   const openPopup = () => {
     setPopupView(true);
   };
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStepChange = (step) => {
-    setActiveStep(step);
-  };
-
   return (
-    <Container sx={{ width: 1 }}>
+    <Container>
       {popupView === true && (
         <Popup
-          socket={socket}
           username={username}
           selectedAnime={selectedAnime}
-          setNavState={setNavState}
           setShowNavbar={setShowNavbar}
           setPopupView={setPopupView}
         />
       )}
-
+      
       <Paper>
-        <AutoPlaySwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          enableMouseEvents
+        <Swiper
+          modules={[Autoplay]}
+          slidesPerView={1}
+          initialSlide={currentAnimeArr[0]}
         >
-          {currentAnimeArr.map((data, i) => (
-            <div key={data.id}>
+          {currentAnimeArr.map((data) => (
+            <SwiperSlide key={data.id}>
               <Box
                 component={"img"}
                 sx={{
@@ -82,53 +58,16 @@ const Home = (props) => {
                 alt={data.title}
                 onClick={(e) => {
                   openPopup();
-                  console.log(data);
                   setSelectedAnime(data);
                 }}
               />
-            </div>
+            </SwiperSlide>
           ))}
-        </AutoPlaySwipeableViews>
-        <MobileStepper
-          variant="progress"
-          steps={maxSteps}
-          position="static"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowLeft />
-              ) : (
-                <KeyboardArrowRight />
-              )}
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowRight />
-              ) : (
-                <KeyboardArrowLeft />
-              )}
-            </Button>
-          }
-        />
+        </Swiper>
       </Paper>
       <Paper>
         {favoriteAnimeArr.map((data, i) => (
-          <Grid
-            component={"img"}
-            // src={data.images.facebook.og_image_url}
-            // alt={data.title}
-          />
+          <Grid />
         ))}
       </Paper>
     </Container>

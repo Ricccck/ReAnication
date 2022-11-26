@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,8 +12,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 
+import socket from "../../services/socket";
+
 const ThreadHeader = (props) => {
-  const { username, thread, setNavState, setShowNavbar, socket } = props;
+  const { username, thread, setShowNavbar } = props;
+  const navigate = useNavigate();
 
   const [userList, setUserList] = useState("");
   const [threadUsers, setThreadUsers] = useState([]);
@@ -28,14 +33,11 @@ const ThreadHeader = (props) => {
     socket.emit("leave_thread", { username, thread });
 
     setShowNavbar(true);
-    setNavState("home");
+    navigate("/");
   };
 
   return (
-    <AppBar
-      className="ThreadHeader"
-      position="sticky"
-    >
+    <AppBar className="ThreadHeader" position="sticky">
       <Toolbar>
         <Button className="btn" color={"inherit"} onClick={leaveRoom}>
           Leave

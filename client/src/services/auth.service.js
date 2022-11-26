@@ -1,7 +1,7 @@
 import axios from "axios";
 import tokenService from "./token.service";
 
-const URL = "/auth";
+const URL = "http://127.0.0.1:8080/auth";
 
 const signup = async (
   username,
@@ -11,8 +11,6 @@ const signup = async (
   email,
   password
 ) => {
-  console.log(username, firstname, lastname, gender, email, password);
-
   return await axios
     .post(URL + "/signup", {
       userName: username,
@@ -48,8 +46,6 @@ const login = async (email, password) => {
 
 const logout = async () => {
   tokenService.removeUser();
-
-  
 };
 
 const authService = {

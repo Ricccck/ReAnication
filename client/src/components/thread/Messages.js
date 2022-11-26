@@ -7,9 +7,9 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 
 import utilService from "../../services/util.services";
+import socket from "../../services/socket";
 
 const Messages = (props) => {
-  const { socket } = props;
   const ref = useRef(null);
 
   const [messagesArr, setMessagesArr] = useState([]);
@@ -31,7 +31,7 @@ const Messages = (props) => {
     });
 
     return () => socket.off("receive_message");
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     socket.on("get_all_message", (data) => {
@@ -40,7 +40,7 @@ const Messages = (props) => {
     });
 
     return () => socket.off("get_all_message");
-  }, [socket]);
+  }, []);
 
   return (
     <Container className="Thread">
