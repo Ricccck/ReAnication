@@ -12,11 +12,11 @@
   </div>
   <div>
     Front
-    [![My Skills](https://skillicons.dev/icons?i=react)](https://skillicons.dev)
+    <img src="https://skillicons.dev/icons?i=react" />
   </div>
   <div>
     Back
-    [![My Skills](https://skillicons.dev/icons?i=nodejs,express,postgres)](https://skillicons.dev)
+    <img src="https://skillicons.dev/icons?i=nodejs,express,postgres" />
   </div>
 </div>
 
