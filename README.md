@@ -8,9 +8,9 @@
 # Technologies
 [![My Skills](https://skillicons.dev/icons?i=js,react,nodejs,express,postgres)](https://skillicons.dev)
 JavaScript
-## Frontend
+### Frontend
 React
-## Backend
+### Backend
 node.js
 express.js
 PostgreSql
