@@ -8,7 +8,7 @@
 # Technologies
 <div display="flexbox">
   <div>
-    [![My Skills](https://skillicons.dev/icons?i=js)](https://skillicons.dev)
+    <img src="https://skillicons.dev/icons?i=js" />
   </div>
   <div>
     Front
