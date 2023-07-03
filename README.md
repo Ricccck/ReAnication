@@ -1,5 +1,5 @@
 <p align="center">
-  #ReAnication (ver0.9)
+  #ReAnication
 </p>
 
 # Introduction
@@ -26,18 +26,33 @@ bcrypt, jsonwebtoken, knex
 * 
 
 #Getting Started in loccal environment
-### Need to install & Sign up
+## Need to install & Sign up
 * Install [postgresql](https://www.postgresql.org/)
 * Get api key from [Annict Developers](https://developers.annict.com/)
 
-### Set up
+###Create ```.env.local``` file in ```./ReAnication``` directory
+```
+DB_NAME=<your_db_name>
+DB_USER=<your_db_username>
+DB_PASSWORD=<your_db_password>
+
+ACCESS_TOKEN_SECRET_KEY=<your_jwt_key>
+REFRESH_TOKEN_SECRET_KEY=<your_another_jwt_key>
+```
+
+###Create ```.env``` file in ```./ReAnication/client``` directory
+```
+REACT_APP_ACCESS_TOKEN=<your_api_key>
+```
+
+## Set up
 1. Clone repository to local environment
 2. Begin by running the following command in the root folder to install depencies  
 ```js
 npm install
 ```
 3. Create a database for postgreSQL
-```js
+```
 psql
 CREATE DATABASE <db_name>
 ```
@@ -56,7 +71,10 @@ cd client
 npm start
 ```
 
-#
+# Contributer
+###Riku Usui
+<img src="https://avatars.githubusercontent.com/u/99594245?v=4" width="200px;" alt=""/>
+[github](https://github.com/Ricccck/), [Linkedin]()
 
-This app was created during my time as a student at Code Chrysalis.
+### This app was created during my time as a student at Code Chrysalis.
 
