@@ -70,7 +70,7 @@ npm start
 ```
 
 # Contributer
-## Riku Usui<br>
+### Riku Usui<br>
 <img src="https://avatars.githubusercontent.com/u/99594245?v=4" width="200px;" alt=""/><br>
 [github](https://github.com/Ricccck/) | [Linkedin]()
 
