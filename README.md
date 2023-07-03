@@ -9,13 +9,15 @@
 [![My Skills](https://skillicons.dev/icons?i=js)](https://skillicons.dev)
 JavaScript
 ### Frontend
-React
 [![My Skills](https://skillicons.dev/icons?i=react)](https://skillicons.dev)
+React
 ### Backend
-node.js
-express.js
-PostgreSql
-[![My Skills](https://skillicons.dev/icons?i=nodejs,express,postgres)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=nodejs)](https://skillicons.dev)
+node.js<br>
+[![My Skills](https://skillicons.dev/icons?i=express)](https://skillicons.dev)
+express.js<br>
+[![My Skills](https://skillicons.dev/icons?i=postgres)](https://skillicons.dev)
+PostgreSQL
 
 
 This app was created during my time as a student at Code Chrysalis.
