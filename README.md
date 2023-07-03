@@ -11,11 +11,11 @@
     <img src="https://skillicons.dev/icons?i=js" />
   </div>
   <div>
-    <p>Front</p>
+    ## Front
     <img src="https://skillicons.dev/icons?i=react" />
   </div>
   <div>
-    <p>Back</p>
+    ## Back
     <img src="https://skillicons.dev/icons?i=nodejs,express,postgres" />
   </div>
 </div>
