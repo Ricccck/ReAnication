@@ -7,17 +7,11 @@
 
 # Technologies
 <div display="flexbox">
-  <div>
-    <img src="https://skillicons.dev/icons?i=js" />
-  </div>
-  <div>
-    ## Front
-    <img src="https://skillicons.dev/icons?i=react" />
-  </div>
-  <div>
-    ## Back
-    <img src="https://skillicons.dev/icons?i=nodejs,express,postgres" />
-  </div>
+  <img src="https://skillicons.dev/icons?i=js" />
+  ## Front
+  <img src="https://skillicons.dev/icons?i=react" />
+  ## Back
+  <img src="https://skillicons.dev/icons?i=nodejs,express,postgres" />
 </div>
 
 
