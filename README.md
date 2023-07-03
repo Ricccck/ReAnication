@@ -1,4 +1,5 @@
 # ReAnication
+### This app was created during my time as a student at Code Chrysalis.
 
 # Introduction
 [ReAnication](https://github.com/Ricccck/ReAnication/) is an application designed for live communication during anime broadcasts for everyone who loves anime. This application retrieves and displays the latest anime information from Annict's api. The application also includes a login feature via Jason Web Token. Users have to log in to enter the chat.
@@ -72,7 +73,4 @@ npm start
 # Contributer
 ### Riku Usui<br>
 <img src="https://avatars.githubusercontent.com/u/99594245?v=4" width="200px;" alt=""/><br>
-[github](https://github.com/Ricccck/) | [Linkedin]()
-
-### This app was created during my time as a student at Code Chrysalis.
-
+[github](https://github.com/Ricccck/) | [Linkedin](https://www.linkedin.com/in/ricccck-usui/)
