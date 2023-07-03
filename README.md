@@ -7,6 +7,13 @@
 
 # Technologies
 [![My Skills](https://skillicons.dev/icons?i=js,react,nodejs,express,postgres)](https://skillicons.dev)
+JavaScript
+## Frontend
+React
+## Backend
+node.js
+express.js
+PostgreSql
 
 This app was created during my time as a student at Code Chrysalis.
 
